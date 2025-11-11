@@ -115,26 +115,18 @@ def login():
 
 @app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
-    dados = "" # Crie a variável de dados vazia
+    dados = "" 
     
     if(request.method == 'POST'):
-        # --- CORREÇÃO 1: 'name' mudado para 'nome' ---
         nome = request.form['nome'] 
         data_nascimento = request.form['data_nascimento']
         cpf = request.form['cpf']
         nome_mae = request.form['nome_mae']
         
-        # Agora a variável 'nome' existe e pode ser usada aqui
         dados = f"Cadastro Recebido: \n\n Nome: {nome}, \n Nasc: {data_nascimento}, \n CPF: {cpf}, \n Mãe: {nome_mae}"
         
-        # Envia os dados para a página de saudação ver o resultado
-        # --- CORREÇÃO DE CAMINHO ---
         return render_template('cadastro/cadastro.html', valor_recebido=dados)
 
-    # --- CORREÇÃO 2: Adicionado o 'return' para o método GET ---
-    # Se o método não for POST, significa que é GET.
-    # Então, apenas mostre a página com o formulário de cadastro.
-    # --- CORREÇÃO DE CAMINHO ---
     return render_template('cadastro/cadastro.html', valor_recebido=dados) # Passa 'dados' vazios
 
 
