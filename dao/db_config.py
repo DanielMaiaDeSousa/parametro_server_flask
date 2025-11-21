@@ -1,3 +1,4 @@
+import os
 import sqlite3
 import psycopg2
 # path / url de conexão
