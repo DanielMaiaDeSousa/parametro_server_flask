@@ -3,7 +3,7 @@ from dao.db_config import get_connection
 
 class ProfessorDAO: 
 
-    sqlSelect = 'SELECT id, nome, disciplina from professor'
+    sqlSelect = 'SELECT id, nome, disciplina from professor order by id desc'
 
 
     def listar(self):
@@ -13,3 +13,24 @@ class ProfessorDAO:
         lista = cursor.fetchall()
         conn.close()
         return lista
+    
+    def salvar(self, id, nome, disciplina):
+        conn = get_connection()
+        cursor = conn.cursor()
+        try:
+            if id:
+                # Lógica de UPDATE
+                cursor.execute('UPDATE professor SET nome = %s, disciplina = %s WHERE id = %s', 
+                               (nome, disciplina, id))
+            else:
+                # Lógica de INSERT
+                cursor.execute('INSERT INTO professor (nome, disciplina) VALUES (%s, %s)', 
+                               (nome, disciplina))
+            
+            conn.commit()
+            return {"status": "ok"}
+        except Exception as e:
+            conn.rollback() # Importante adicionar rollback
+            return {"status": "erro", "mensagem": f"Erro: {str(e)}"}
+        finally:
+            conn.close()
